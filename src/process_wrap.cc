@@ -169,6 +169,22 @@ class ProcessWrap : public HandleWrap {
       options.stderr_stream = stderr_wrap->UVHandle();
     }
 
+    Local<Value> stdout_file_v = js_options->Get(String::New("outFile"));
+    if (!stdout_file_v.IsEmpty() && stdout_file_v->IsString()) {
+      String::Utf8Value stdout_file(stdout_file_v->ToString());
+      if (stdout_file.length() > 0) {
+        options.stdout_file = strdup(*stdout_file);
+      }
+    }
+
+    Local<Value> stderr_file_v = js_options->Get(String::New("errFile"));
+    if (!stderr_file_v.IsEmpty() && stderr_file_v->IsString()) {
+      String::Utf8Value stderr_file(stderr_file_v->ToString());
+      if (stderr_file.length() > 0) {
+        options.stderr_file = strdup(*stderr_file);
+      }
+    }
+
     options.detached = js_options->Get(String::NewSymbol("detached"))->IsTrue();
 
     // options.windows_verbatim_arguments
