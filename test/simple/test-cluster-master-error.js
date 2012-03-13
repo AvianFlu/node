@@ -107,7 +107,7 @@ if (cluster.isWorker) {
   });
 
   // When cluster is dead
-  master.on('exit', function(code) {
+  master.on('close', function(code) {
 
     // Check that the cluster died accidently
     existMaster = (code === 1);
